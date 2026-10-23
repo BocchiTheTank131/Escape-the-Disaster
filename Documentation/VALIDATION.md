@@ -1,3 +1,5 @@
+> Historical v0.1 evidence. For the current upgrade see [v0.2 completion and validation](V02_COMPLETION.md).
+
 # Validation and remaining limits
 
 ## Reproducible gameplay verification
@@ -45,3 +47,4 @@ The standalone executable launched, displayed the main menu correctly, accepted 
 The standalone log exposed an agent/surface initialization-order warning. Agents are now saved disabled and enabled in `Evacuee.Start`, after scene surfaces have registered in OnEnable. A focused Editor regression confirmed all eight agents enabled, bound to NavMesh, and had complete paths with zero console warnings/errors; see `Verification/NPCStartup.md`. The final executable includes this fix, but its native UI was not retested after Computer Use was stopped. Existing Unity analytics services also logged DNS failures on this machine; these did not prevent local play.
 
 Final build: `Builds/v0.1/Windows/FloodSurvival.exe`. The earlier `Builds/Windows` directory is an intermediate build. The final ZIP includes controls, credits and retained font/package licenses.
+

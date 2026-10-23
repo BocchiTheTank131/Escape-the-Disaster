@@ -3,14 +3,15 @@ namespace FloodSurvival
 {
     public sealed class ObjectiveSystem : MonoBehaviour
     {
-        public Transform home, shelter;
+        public Transform home;
+        [UnityEngine.Serialization.FormerlySerializedAs("shelter")] public Transform highGround;
         public Transform supplies;
         public int HouseSupplies {get; private set;}
         public bool LeftHouse {get; private set;}
         public bool ReturnedHome { get; private set; }
         public bool MissedHome { get; private set; }
-        public Transform Target => GameManager.Instance.State!=GameState.Flood && !LeftHouse && HouseSupplies<2 && supplies?supplies:shelter;
-        public string TargetName => Target==supplies?"HOUSE SUPPLIES":"RIDGE SHELTER";
+        public Transform Target => GameManager.Instance.State!=GameState.Flood && !LeftHouse && HouseSupplies<2 && supplies?supplies:highGround;
+        public string TargetName => Target==supplies?"HOUSE SUPPLIES":"WOODED HIGH GROUND";
         public string Text
         {
             get

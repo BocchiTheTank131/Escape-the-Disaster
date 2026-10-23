@@ -19,7 +19,7 @@ namespace FloodSurvival.Editor
         static TMP_FontAsset font;
         static Material grass,asphalt,concrete,cream,roof,wood,glass,amber,white,metal,red,atlas,rock;
         static readonly List<AudioSource> sirens=new List<AudioSource>();
-        [MenuItem("Flood Survival/Build Prototype Scene")]
+        [MenuItem("Flood Survival/Legacy v0.1/Rebuild prototype scene (replaces edits)")]
         public static void Build()
         {
             if(EditorApplication.isPlaying) throw new InvalidOperationException("Stop Play mode before building.");
@@ -45,7 +45,7 @@ namespace FloodSurvival.Editor
             }
             var systems=new GameObject("Survival Systems"); var game=systems.AddComponent<GameManager>();
             var inventory=systems.AddComponent<InventorySystem>(); game.objectives=systems.AddComponent<ObjectiveSystem>();
-            game.objectives.home=Point("Home objective",new Vector3(-22,.3f,-30)); game.objectives.shelter=Point("Ridge Shelter objective",new Vector3(88,15.1f,-46));
+            game.objectives.home=Point("Home objective",new Vector3(-22,.3f,-30)); game.objectives.highGround=Point("Ridge Shelter objective",new Vector3(88,15.1f,-46));
             Player(game,inventory); Water(game); Citizens(game); Audio(game); Supplies(); Interface(game);
             PlayerSettings.productName="FLOOD SURVIVAL: 5 DAYS"; PlayerSettings.companyName="Cedar Valley Studio"; PlayerSettings.defaultScreenWidth=1600; PlayerSettings.defaultScreenHeight=900; PlayerSettings.fullScreenMode=FullScreenMode.FullScreenWindow; PlayerSettings.runInBackground=true;
             PlayerSettings.bundleVersion="0.1.0";
@@ -304,3 +304,4 @@ namespace FloodSurvival.Editor
         }
     }
 }
+

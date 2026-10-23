@@ -39,14 +39,14 @@ namespace FloodSurvival
             {
                 Remaining=Mathf.Max(0,Remaining-Time.deltaTime);
                 if(Remaining<=60 && !warned60) { warned60=true; Announce("ONE MINUTE", "Dam integrity critical. Take the eastern ridge trail now.",6); }
-                if(Remaining<=30 && !warned30) { warned30=true; Announce("30 SECONDS", "Abandon low ground. Prepare to move toward Ridge Shelter.",5); }
+                if(Remaining<=30 && !warned30) { warned30=true; Announce("30 SECONDS", "Abandon the houses. Take the trail into the wooded hills.",5); }
                 if(Remaining<=10 && !warned10) { warned10=true; Announce("BREACH IMMINENT", "Get ready. The river is about to rise.",5); }
                 if(Remaining<=0) Breach();
             }
             else if(State==GameState.Flood)
             {
                 FloodElapsed+=Time.deltaTime; flood.Tick(Time.deltaTime); player.WaterTick(flood.GetLevel(player.transform.position),Time.deltaTime);
-                if(State==GameState.Flood && FloodElapsed>=flood.RiseDuration && Vector3.Distance(player.transform.position,objectives.shelter.position)<9 && player.transform.position.y>flood.FinalLevel+1) Finish(true);
+                if(State==GameState.Flood && FloodElapsed>=flood.RiseDuration && player.Grounded && player.transform.position.y>flood.FinalLevel+1) Finish(true);
             }
             audioSystem.Tick(State==GameState.Flood,Remaining);
         }
@@ -70,7 +70,7 @@ namespace FloodSurvival
             if(State!=GameState.Preparation) return;
             State=GameState.Flood; Remaining=0; objectives.OnBreach(); flood.Begin(); player.Shake(3); audioSystem.Collapse();
             Collapsed?.Invoke();
-            Announce("THE DAM HAS COLLAPSED", "Run to Ridge Shelter. Follow the amber trail markers. Do not remain in your house.",10); ui.RefreshState();
+            Announce("THE DAM HAS COLLAPSED", "Water will reach the house roofs. Follow the amber trail to wooded high ground.",10); ui.RefreshState();
         }
         public void Escape()
         {

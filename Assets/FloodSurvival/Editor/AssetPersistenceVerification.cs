@@ -20,8 +20,8 @@ namespace FloodSurvival.Editor
                 var item=AssetDatabase.LoadAssetAtPath<ItemDefinition>(path);
                 Resources.UnloadAsset(item);
                 item=AssetDatabase.LoadAssetAtPath<ItemDefinition>(path);
-                if(!item || item.kind!=kind || string.IsNullOrEmpty(item.displayName))throw new Exception("Persisted item invalid: "+path);
-                report.AppendLine("- PASS — "+kind+": "+item.displayName+" / correct kind and text after disk reload");
+                if(!item || item.kind!=kind || string.IsNullOrEmpty(item.displayName) || !item.icon || string.IsNullOrEmpty(item.description))throw new Exception("Persisted item invalid: "+path);
+                report.AppendLine("- PASS — "+kind+": "+item.displayName+" / correct kind, text, icon and description after disk reload");
             }
             EditorSceneManager.OpenScene(scene,OpenSceneMode.Single);
             int missing=0;
@@ -31,8 +31,16 @@ namespace FloodSurvival.Editor
             var game=UnityEngine.Object.FindFirstObjectByType<GameManager>();
             if(!game || !game.player || !game.ui || !game.objectives || !game.npcs || !game.flood || !game.audioSystem)throw new Exception("System wiring lost after scene reload");
             report.AppendLine("- PASS — Scene reload has zero missing scripts and all manager references intact");
-            Directory.CreateDirectory("Verification"); File.WriteAllText("Verification/SavedAssets.md",report.ToString());
-            return "All four item definitions reloaded from disk; scene references intact";
+            if(!game.story || !game.story.seat || !game.story.standing || !game.story.television || game.story.newsVoices.Length!=4)throw new Exception("Story references lost after reload");
+            foreach(var clip in game.story.newsVoices)if(!clip)throw new Exception("News voice reference missing");
+            if(game.audioSystem.residentLines.Length!=3 || !game.audioSystem.radioSpeech || game.ui.definitions.Length!=7)throw new Exception("Audio/UI references lost after reload");
+            var surface=UnityEngine.Object.FindFirstObjectByType<Unity.AI.Navigation.NavMeshSurface>();
+            if(!surface || !surface.navMeshData || !AssetDatabase.Contains(surface.navMeshData))throw new Exception("NavMesh was not persisted");
+            foreach(var citizen in game.npcs.citizens)if(!citizen || !citizen.animator || !citizen.animator.avatar || !citizen.animator.avatar.isHuman)throw new Exception("Humanoid NPC reference missing");
+            report.AppendLine("- PASS — Story, four reporter clips, resident/radio speech, seven UI definitions and eight humanoid references survive reload");
+            report.AppendLine("- PASS — NavMesh data is a saved asset");
+            Directory.CreateDirectory("Verification/v0.2"); File.WriteAllText("Verification/v0.2/SavedAssets.md",report.ToString());
+            return "All seven item definitions, icons and story/audio/UI/NavMesh references reloaded from disk";
         }
     }
 }

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Medicine
   m_EditorClassIdentifier: Assembly-CSharp::FloodSurvival.ItemDefinition
   kind: 2
-  displayName: Medicine
-  description: Restores 40 health. Use H.
-  color: {r: 0.85, g: 0.25, b: 0.2, a: 1}
+  displayName: First-aid kit
+  description: Clean dressings and medicine. Restores up to 40 health. Press H.
+  color: {r: 0.85, g: 0.22, b: 0.17, a: 1}
+  icon: {fileID: 21300000, guid: 8c66fa1df4d61574495a77b56b8df8d4, type: 3}
+  slotCost: 1

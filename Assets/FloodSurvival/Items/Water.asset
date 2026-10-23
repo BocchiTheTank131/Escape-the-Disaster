@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Water
   m_EditorClassIdentifier: Assembly-CSharp::FloodSurvival.ItemDefinition
   kind: 1
-  displayName: Drinking water
-  description: An essential emergency supply.
-  color: {r: 0.2, g: 0.66, b: 0.8, a: 1}
+  displayName: Bottled water
+  description: 'Fresh drinking water: restores 8 health on dry ground.'
+  color: {r: 0.24, g: 0.72, b: 0.9, a: 1}
+  icon: {fileID: 21300000, guid: eba640037ad27474590fcbcf4dcb0ed7, type: 3}
+  slotCost: 1

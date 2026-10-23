@@ -110,7 +110,7 @@ namespace FloodSurvival.Editor
                 game.player.Teleport(new Vector3(21,.25f,23)); game.player.transform.rotation=Quaternion.identity; Keys(Key.W); await WaitGame(1.2f); Keys(); Check(game.player.transform.position.z<24.5f,"CharacterController collides with market back wall");
                 game.player.Teleport(new Vector3(35,.5f,-46)); game.player.transform.rotation=Quaternion.Euler(0,90,0); Keys(Key.W,Key.LeftShift); await WaitGame(7.4f); Keys(); await Wait(.3f);
                 Check(game.player.transform.position.x>84 && game.player.transform.position.y>14,"Player can sprint continuously from street to shelter terrace");
-                game.player.Teleport(game.objectives.shelter.position+Vector3.up*.2f);
+                game.player.Teleport(game.objectives.highGround.position+Vector3.up*.2f);
                 foreach(var npc in game.npcs.citizens)
                 {
                     var agent=npc.GetComponent<UnityEngine.AI.NavMeshAgent>(); var path=new UnityEngine.AI.NavMeshPath();
@@ -121,7 +121,7 @@ namespace FloodSurvival.Editor
                 while(game.State==GameState.Preparation) { await Wait(.25f); if(!EditorApplication.isPlaying)throw new Exception("Play mode interrupted"); }
                 Check(game.State==GameState.Flood && Time.time-started>=149.9f,accelerated?"150 gameplay seconds trigger flood after disk reload":"Countdown expires naturally and triggers flood");
                 Check(!game.flood.damCenter.activeSelf && game.flood.water.gameObject.activeSelf,"Dam breach removes central section and activates water");
-                Check(game.objectives.Target==game.objectives.shelter,"Objective changes to high ground");
+                Check(game.objectives.Target==game.objectives.highGround,"Objective changes to high ground");
                 // Looking back down the valley provides a visual record of the rising surface.
                 game.player.transform.rotation=Quaternion.Euler(0,-90,0); typeof(FirstPersonController).GetField("pitch",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(game.player,18f);
                 float previous=game.flood.Level; await WaitGame(12); Check(game.flood.Level>previous+1,accelerated?"Water level rises progressively after disk reload":"Water level rises progressively at normal time"); Capture("04-rising-water");
@@ -153,3 +153,4 @@ namespace FloodSurvival.Editor
         }
     }
 }
+

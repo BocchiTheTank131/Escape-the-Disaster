@@ -1,0 +1,78 @@
+# Prototype v0.2 runtime verification
+
+Primary opening (12 s), countdown (150 s) and flood (75 s) run at timeScale 1.
+Virtual Input System events test controls; teleports arrange interactions and hazards.
+Secondary hazard/no-supply branches explicitly accelerate setup.
+
+- PASS — Existing CedarValley scene loads with v0.2 references
+- PASS — First opening cannot be skipped before it is seen
+- PASS — Player loop advances while the Editor is unfocused
+- PASS — Start Story begins seated on the couch before an emergency
+- PASS — Original cartoon animation and TV audio play
+- PASS — Seated player can look but cannot walk through the couch
+- PASS — Mouse look works while seated
+- PASS — Pause freezes opening, audio and gameplay
+- PASS — Opening resumes safely
+- RUNNING — waiting for the natural 12-second television interruption
+- PASS — Breaking news interrupts after the configured 10–15 seconds
+- PASS — TV warning starts the full 150-second preparation timer
+- PASS — Repeated emergency calls do not duplicate events or reset the timer
+- PASS — Sirens and NPC reactions start with the TV warning
+- PASS — Exact news subtitles and synthesized reporter audio play
+- PASS — E stands up immediately without waiting for the full news report
+- PASS — Seeing the opening unlocks replay skip
+- PASS — I inspects a nearby item and displays its description
+- PASS — E picks up Food from a reachable natural placement
+- PASS — Duplicate Food collection is rejected
+- PASS — E picks up Water from a reachable natural placement
+- PASS — Duplicate Water collection is rejected
+- PASS — E picks up Medicine from a reachable natural placement
+- PASS — Duplicate Medicine collection is rejected
+- PASS — E picks up Flashlight from a reachable natural placement
+- PASS — Duplicate Flashlight collection is rejected
+- PASS — E picks up Batteries from a reachable natural placement
+- PASS — Duplicate Batteries collection is rejected
+- PASS — Base inventory tracks six slots and item costs
+- PASS — Over-capacity pickup stays in the world
+- PASS — E picks up Backpack from a reachable natural placement
+- PASS — Duplicate Backpack collection is rejected
+- PASS — Backpack expands capacity to twelve slots
+- PASS — E picks up Radio from a reachable natural placement
+- PASS — Duplicate Radio collection is rejected
+- PASS — Essential supply checklist and house collection objective update
+- PASS — F equips the collected flashlight
+- PASS — Equipped flashlight consumes charge
+- PASS — R consumes batteries and recharges the flashlight
+- PASS — F toggles the light off
+- PASS — V tunes the collected emergency radio
+- PASS — Tab opens the seven-item inventory with icons and quantities
+- PASS — Tab closes the inventory
+- PASS — Pause freezes the countdown
+- PASS — Optional subtitles can be changed in settings
+- PASS — Walking through the front entrance triggers cracking, not collapse
+- PASS — The outside event starts birds and dam dust
+- PASS — Second emergency alert appears outside
+- PASS — Repeated outside checks do not start another emergency
+- PASS — All eight animated residents have complete evacuation paths
+- PASS — CharacterController can sprint continuously from street to high ground
+- RUNNING — natural 150-second countdown at timeScale 1
+- PASS — Countdown expires naturally and triggers exactly one breach
+- PASS — Breach activates structural debris, dust and downstream surge
+- PASS — Town remains dry before the surge front arrives
+- PASS — Surge visibly travels downstream while its level rises
+- PASS — Flood reaches town progressively while downstream ground is still dry
+- PASS — Lightweight objects rise and drift with the flood
+- RUNNING — full 75-second flood at timeScale 1
+- PASS — Wooded high ground survives the complete surge and produces victory
+- PASS — Restart clears state, inventory, health, water and countdown
+- PASS — Replay skip and configurable countdown work
+- PASS — Deep floodwater pushes downstream
+- PASS — Holding Space swims upward in deep water
+- PASS — Deep submersion depletes oxygen and damages health
+- PASS — H uses first aid and consumes one kit
+- PASS — Remaining caught underwater produces defeat
+- PASS — Restart clears state, inventory, health, water and countdown
+- RUNNING — accelerated no-supplies victory branch
+- PASS — Missing every optional supply does not prevent survival
+- PASS — Restart clears state, inventory, health, water and countdown
+- COMPLETE — all v0.2 runtime checks passed. Listening quality and cross-PC profiling remain manual checks.

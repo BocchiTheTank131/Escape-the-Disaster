@@ -1,0 +1,9 @@
+Poly Haven landscape textures — CC0 1.0
+rock_face_03: https://polyhaven.com/a/rock_face_03
+forest_ground_04: https://polyhaven.com/a/forest_ground_04
+License: https://polyhaven.com/license
+CC0 deed: https://creativecommons.org/publicdomain/zero/1.0/
+Downloaded 2k diffuse and OpenGL normal PNGs. No paid assets or runtime API.
+Powered by Poly Haven — https://polyhaven.com
+Exact download URLs and hashes are in Sources.json.
+aerial_grass_rock: https://polyhaven.com/a/aerial_grass_rock (CC0; 1k diffuse/OpenGL normal JPGs).

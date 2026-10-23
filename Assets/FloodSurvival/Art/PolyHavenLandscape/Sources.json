@@ -1,0 +1,50 @@
+[
+  {
+    "map": "Diffuse",
+    "asset": "rock_face_03",
+    "source": "https://polyhaven.com/a/rock_face_03",
+    "sha256": "09C30549220C8297C06EABCB25D272FCC1B514548BE712221BD9D47F010DEF8B",
+    "license": "CC0",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/rock_face_03/rock_face_03_diff_2k.png"
+  },
+  {
+    "map": "nor_gl",
+    "asset": "rock_face_03",
+    "source": "https://polyhaven.com/a/rock_face_03",
+    "sha256": "53044F276B4F1C3041B91C7D4767BDA0D75CB4B2D237F08B64EB4E95EE456A93",
+    "license": "CC0",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/rock_face_03/rock_face_03_nor_gl_2k.png"
+  },
+  {
+    "map": "Diffuse",
+    "asset": "forest_ground_04",
+    "source": "https://polyhaven.com/a/forest_ground_04",
+    "sha256": "E8C273851A153E751A3664891BA5CBB28713F0CF98ACA442291AB7B27B79900E",
+    "license": "CC0",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/forest_ground_04/forest_ground_04_diff_2k.png"
+  },
+  {
+    "map": "nor_gl",
+    "asset": "forest_ground_04",
+    "source": "https://polyhaven.com/a/forest_ground_04",
+    "sha256": "C0A6D53D29A88A1AFB31964D08A32E228DB615EBEF0F90FF7AF0D69D1F46A06C",
+    "license": "CC0",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/forest_ground_04/forest_ground_04_nor_gl_2k.png"
+  },
+  {
+    "asset": "aerial_grass_rock",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/aerial_grass_rock/aerial_grass_rock_diff_1k.jpg",
+    "sha256": "57B8041BFE0D0F01430E4DBAAD45E7DDDDF0A9FC97317F90DBC51F7B0D9E1B5D",
+    "map": "Diffuse",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/aerial_grass_rock"
+  },
+  {
+    "asset": "aerial_grass_rock",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/aerial_grass_rock/aerial_grass_rock_nor_gl_1k.jpg",
+    "sha256": "1AA3E23BFF453F152E089B9F83AA36B4901651E019F7E2CA01D5331A9BBBDA78",
+    "map": "nor_gl",
+    "license": "CC0",
+    "source": "https://polyhaven.com/a/aerial_grass_rock"
+  }
+]

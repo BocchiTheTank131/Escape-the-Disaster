@@ -16,6 +16,7 @@ namespace FloodSurvival
         public bool Swimming {get; private set;}
         public float BatteryCharge {get; private set;}=100;
         public bool LampOn => flashlight && flashlight.enabled;
+        public bool Grounded => controller && controller.isGrounded;
         CharacterController controller;
         Vector3 velocity, planar;
         float pitch, bob, shake, seatedYaw, stepDistance;
@@ -48,6 +49,7 @@ namespace FloodSurvival
             var game=GameManager.Instance; if(!game) return;
             if(pause.WasPressedThisFrame()) game.Escape();
             if(game.IsPlaying && bag.WasPressedThisFrame()) game.ToggleInventory();
+            if(game.IsPlaying && LampOn){BatteryCharge=Mathf.Max(0,BatteryCharge-Time.deltaTime*.6f); if(BatteryCharge<=0)flashlight.enabled=false;}
             if(!AcceptsInput) { FocusedItem=null; return; }
             var delta=look.ReadValue<Vector2>()*sensitivity;
             transform.Rotate(0,delta.x,0); pitch=Mathf.Clamp(pitch-delta.y,seated?-55:-82,seated?55:82);
@@ -102,7 +104,6 @@ namespace FloodSurvival
             if(medicine.WasPressedThisFrame()) UseMedicine();
             if(reload.WasPressedThisFrame())UseItem(ItemKind.Batteries);
             if(radio.WasPressedThisFrame())UseItem(ItemKind.Radio);
-            if(LampOn){BatteryCharge=Mathf.Max(0,BatteryCharge-Time.deltaTime*.6f); if(BatteryCharge<=0)flashlight.enabled=false;}
         }
         public void ToggleFlashlight() { if(inventory.Count(ItemKind.Flashlight)>0 && BatteryCharge>0) flashlight.enabled=!flashlight.enabled; }
         public void UseMedicine() { if(Health<100 && inventory.Consume(ItemKind.Medicine)) Health=Mathf.Min(100,Health+40); }
@@ -113,7 +114,7 @@ namespace FloodSurvival
             else if(kind==ItemKind.Batteries && BatteryCharge<99 && inventory.Consume(kind)){BatteryCharge=100;GameManager.Instance.audioSystem.Pickup();}
             else if(kind==ItemKind.Food && Health<100 && inventory.Consume(kind))Health=Mathf.Min(100,Health+12);
             else if(kind==ItemKind.Water && Health<100 && !Swimming && inventory.Consume(kind))Health=Mathf.Min(100,Health+8);
-            else if(kind==ItemKind.Radio && inventory.Count(kind)>0){GameManager.Instance.audioSystem.Radio();GameManager.Instance.Announce("EMERGENCY CHANNEL 04","Ridge Shelter remains above the flood. Follow the amber posts east. Stay away from the valley floor.",7);}
+            else if(kind==ItemKind.Radio && inventory.Count(kind)>0){GameManager.Instance.audioSystem.Radio();GameManager.Instance.Announce("EMERGENCY CHANNEL 04","Wooded high ground east of Cedar Valley remains above the flood. Follow the amber trail into the trees.",7);}
         }
         public void Sit(Vector3 position,float yaw) { controller.enabled=false;seated=true;seatedYaw=yaw;transform.SetPositionAndRotation(position,Quaternion.Euler(0,yaw,0));pitch=0;view.transform.localPosition=Vector3.up*1.15f;view.transform.localRotation=Quaternion.identity; }
         public void Stand(Vector3 position) { seated=false;transform.position=position;controller.enabled=true;velocity=planar=Vector3.zero;pitch=0;view.transform.localPosition=Vector3.up*1.64f; }

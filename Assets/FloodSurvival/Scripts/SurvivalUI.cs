@@ -18,11 +18,19 @@ namespace FloodSurvival
         [SerializeField] TMP_Text[] inventoryRows;
         [SerializeField] UnityEngine.UI.Button[] itemButtons;
         bool subtitlesEnabled=true;
+        GameObject controlLegend,vitals;
+        GameObject crosshair,channelReadout;
+        RectTransform interactionPanel;
+        RectTransform bagCard,subtitleRect;
         float nextRefresh;
         static readonly Color Ink=new Color(.035f,.065f,.08f,.94f), Muted=new Color(.64f,.73f,.73f), Amber=new Color(1,.69f,.27f), White=new Color(.93f,.96f,.92f);
         void Start()
         {
             var game=GameManager.Instance;
+            controlLegend=transform.Find("HUD/Controls")?.gameObject;vitals=health.transform.parent.gameObject;
+            crosshair=transform.Find("HUD/Crosshair")?.gameObject;channelReadout=transform.Find("HUD/FloodStatus")?.gameObject;interactionPanel=transform.Find("HUD/Interaction") as RectTransform;
+            bagCard=bag.transform.Find("BagCard") as RectTransform;
+            if(subtitlePanel)subtitleRect=subtitlePanel.GetComponent<RectTransform>();
             startButton.onClick.AddListener(game.Begin); resumeButton.onClick.AddListener(game.Resume);
             restartButton.onClick.AddListener(game.Restart); endRestart.onClick.AddListener(game.Restart);
             quitButton.onClick.AddListener(game.Quit); endQuit.onClick.AddListener(game.Quit);
@@ -38,15 +46,17 @@ namespace FloodSurvival
         public void RefreshState()
         {
             var game=GameManager.Instance; if(!game)return;
-            hud.SetActive(game.IsPlaying); menu.SetActive(game.State==GameState.Menu); pause.SetActive(game.State==GameState.Paused);
+            hud.SetActive(game.IsPlaying && !game.InventoryOpen); menu.SetActive(game.State==GameState.Menu); pause.SetActive(game.State==GameState.Paused);
             bag.SetActive(game.InventoryOpen); end.SetActive(game.State==GameState.Victory || game.State==GameState.Defeat);
+            objective.transform.parent.gameObject.SetActive(game.State!=GameState.Opening && (!game.story || !game.story.Seated));
+            timer.transform.parent.gameObject.SetActive(game.State!=GameState.Opening);
             if(skipButton)skipButton.gameObject.SetActive(OpeningSequence.CanSkip);
             if(end.activeSelf)
             {
                 bool won=game.State==GameState.Victory;
                 endTitle.text=won?"ABOVE THE FLOOD":"LOST TO THE WATER";
                 endTitle.color=won?Amber:new Color(1,.4f,.3f);
-                endBody.text=won?"You reached Ridge Shelter and outlasted the surge.\n\n"+(game.player.inventory.Prepared?"Food, water, first aid and light: all secured.":"You survived with the supplies you could carry.")+"\n"+$"Emergency bag: {game.player.inventory.Used}/{game.player.inventory.Capacity} slots. House supplies: {game.objectives.HouseSupplies}.\n\nDAY 1 / THE FIRST NIGHT LIES AHEAD":"Your air ran out beneath the rising water.\n\nFollow the amber trail east of the house.\nHold Space to swim up; avoid the fast current.\n\nSupplies help, but high ground saves your life.";
+                endBody.text=won?"You reached wooded high ground and outlasted the surge.\n\n"+(game.player.inventory.Prepared?"Food, water, first aid and light: all secured.":"You survived with the supplies you could carry.")+"\n"+$"Emergency bag: {game.player.inventory.Used}/{game.player.inventory.Capacity} slots. House supplies: {game.objectives.HouseSupplies}.\n\nDAY 1 / THE FIRST NIGHT LIES AHEAD":"Your air ran out beneath the rising water.\n\nThe house roofs are no longer safe.\nTake the amber trail into the wooded hills.\nHold Space to swim up; avoid the fast current.";
             }
             nextRefresh=0;
         }
@@ -55,6 +65,13 @@ namespace FloodSurvival
             if(Time.unscaledTime<nextRefresh)return; nextRefresh=Time.unscaledTime+.08f;
             var game=GameManager.Instance; if(!game)return;
             var player=game.player; var inv=player.inventory;
+            bool seated=game.story && game.story.Seated;
+            if(controlLegend)controlLegend.SetActive(!seated);
+            if(vitals)vitals.SetActive(!seated);
+            if(crosshair)crosshair.SetActive(!seated);if(channelReadout)channelReadout.SetActive(!seated);
+            if(interactionPanel)interactionPanel.anchoredPosition=new Vector2(-250,seated?-250:-46);
+            objective.transform.parent.gameObject.SetActive(game.State!=GameState.Opening && !seated);
+            timer.transform.parent.gameObject.SetActive(game.State!=GameState.Opening);
             int seconds=Mathf.CeilToInt(game.Remaining);
             timer.text=game.State==GameState.Flood?"BREACHED":$"{seconds/60:00}:{seconds%60:00}";
             timer.fontSize=game.flood.IsFlooding?30:44;
@@ -68,7 +85,7 @@ namespace FloodSurvival
             supplies.text=$"BAG {inv.Used}/{inv.Capacity}    FOOD {inv.Count(ItemKind.Food)}    WATER {inv.Count(ItemKind.Water)}    AID {inv.Count(ItemKind.Medicine)}    LIGHT {player.BatteryCharge:0}%";
             prompt.text=game.story && game.story.Seated?(game.EmergencyStarted?"[ E ]  GET UP FROM COUCH":"MOUSE  LOOK AROUND"+(OpeningSequence.CanSkip?"     SPACE  SKIP INTRO":"")):player.FocusedItem?"[ E ] TAKE "+player.FocusedItem.definition.displayName.ToUpperInvariant()+"   [ I ] INSPECT":player.FocusedObject?"[ I ] INSPECT "+player.FocusedObject.title:player.Swimming?"HOLD SPACE TO SWIM UP  /  CURRENT PUSHES DOWNSTREAM":"";
             floodStatus.text=game.State==GameState.Flood?$"WATER  {game.flood.Level:0.0} m  /  {game.flood.FinalLevel:0.0} m\n"+(game.FloodElapsed<game.flood.RiseDuration?$"SURGE STABILIZES IN {Mathf.CeilToInt(game.flood.RiseDuration-game.FloodElapsed)} s":"SURGE STABLE / REACH SHELTER"):"CEDAR VALLEY   /   EMERGENCY CHANNEL 04";
-            broadcast.SetActive(game.IsPlaying && !string.IsNullOrEmpty(game.AnnouncementTitle)); announcementTitle.text=game.AnnouncementTitle; announcementBody.text=game.AnnouncementBody;
+            broadcast.SetActive(game.IsPlaying && !seated && !string.IsNullOrEmpty(game.AnnouncementTitle)); announcementTitle.text=game.AnnouncementTitle; announcementBody.text=game.AnnouncementBody;
             bagBody.text="Food +12 health. Water +8 health on dry ground.\nFirst aid +40 health. Batteries recharge the light.\nAll supplies are optional. The countdown continues.";
             if(capacityText)capacityText.text=$"CAPACITY {inv.Used} / {inv.Capacity}   |   FLASHLIGHT {player.BatteryCharge:0}%";
             if(inventoryRows!=null)for(int i=0;i<inventoryRows.Length;i++)
@@ -77,7 +94,18 @@ namespace FloodSurvival
                 inventoryRows[i].text=(definition?definition.displayName:kind.ToString())+"   x"+inv.Count(kind);
                 itemButtons[i].interactable=inv.Count(kind)>0 && kind!=ItemKind.Backpack;
             }
-            if(subtitlePanel){subtitlePanel.SetActive(game.IsPlaying && subtitlesEnabled && game.story && !string.IsNullOrEmpty(game.story.Subtitle));if(game.story)subtitleText.text=game.story.Subtitle;}
+            bool captionActive=game.IsPlaying && subtitlesEnabled && game.story && !string.IsNullOrEmpty(game.story.Subtitle);
+            if(subtitlePanel)
+            {
+                subtitlePanel.SetActive(captionActive);if(game.story)subtitleText.text=game.story.Subtitle;
+                subtitleRect.anchoredPosition=new Vector2(-440,game.InventoryOpen?128:244);
+            }
+            if(bagCard)
+            {
+                float scale=game.InventoryOpen && captionActive?.82f:1;
+                bagCard.localScale=Vector3.one*scale;
+                bagCard.anchoredPosition=new Vector2(-265*scale,scale<1?-26:-64);
+            }
             if(subtitleButton)subtitleButton.GetComponentInChildren<TMP_Text>().text="SUBTITLES  "+(subtitlesEnabled?"ON":"OFF");
             healButton.interactable=inv.Count(ItemKind.Medicine)>0 && player.Health<100; flashButton.interactable=inv.Count(ItemKind.Flashlight)>0;
             bool underwater=game.flood.GetLevel(player.transform.position)>player.view.transform.position.y;

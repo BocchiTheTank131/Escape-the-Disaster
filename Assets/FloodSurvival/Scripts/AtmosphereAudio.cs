@@ -7,6 +7,9 @@ namespace FloodSurvival
         public AudioSource ambience, effects;
         public AudioSource television,birds,damSource,floodSource;
         public AudioSource[] voices;
+        public AudioClip[] residentLines;
+        public AudioClip radioSpeech;
+        float nextRadio;
         AudioClip sirenClip,rumble,pickup;
         AudioClip tvTune,birdsong,alert,cracking,woodStep,roadStep,grassStep,splash,panicVoice,radioTone,floodNoise;
         readonly System.Collections.Generic.List<AudioClip> clips=new System.Collections.Generic.List<AudioClip>();
@@ -49,10 +52,11 @@ namespace FloodSurvival
         public void Pickup() { effects.PlayOneShot(pickup,.7f); }
         public void Tick(bool flooding,float remaining) { foreach(var source in sirens) source.volume=flooding?.16f:remaining<30?.42f:.3f; if(floodSource)floodSource.volume=Mathf.MoveTowards(floodSource.volume,flooding?.32f:0,Time.deltaTime*.08f); }
         public void Television(bool play) { if(television){if(play)television.Play();else television.Stop();} }
-        public void BreakingNews() { Television(false); if(television)television.PlayOneShot(alert,.8f);else effects.PlayOneShot(alert,.6f);if(birds)birds.volume=.07f; }
+        public void BreakingNews() { Television(false); if(television){television.volume=.58f;television.PlayOneShot(alert,.65f);}else effects.PlayOneShot(alert,.6f);if(birds)birds.volume=.07f; }
+        public void PlayNews(AudioClip clip) { if(television && clip)television.PlayOneShot(clip,.9f); }
         public void Crack() { if(damSource)damSource.PlayOneShot(cracking,.85f);else effects.PlayOneShot(cracking,.7f); }
-        public void Radio() { effects.PlayOneShot(radioTone,.5f); }
-        public void NpcReaction(Vector3 position,int index) { if(voices==null || voices.Length==0)return;var source=voices[index%voices.Length];if(source.isPlaying)return;source.transform.position=position;source.pitch=.9f+(index%4)*.09f;source.PlayOneShot(panicVoice,.35f); }
+        public void Radio() { if(Time.time<nextRadio)return;nextRadio=Time.time+9;effects.PlayOneShot(radioTone,.3f);if(radioSpeech)effects.PlayOneShot(radioSpeech,.6f); }
+        public void NpcReaction(Vector3 position,int index) { if(voices==null || voices.Length==0)return;var source=voices[index%voices.Length];if(source.isPlaying)return;source.transform.position=position;source.pitch=.9f+(index%4)*.09f;var clip=residentLines!=null && residentLines.Length>0?residentLines[index%residentLines.Length]:panicVoice;source.PlayOneShot(clip,.5f); }
         public void Footstep(string surface,bool wet) { var clip=wet?splash:surface.IndexOf("Floor",System.StringComparison.OrdinalIgnoreCase)>=0 || surface.Contains("Table")?woodStep:surface.Contains("Street") || surface.Contains("sidewalk") || surface.Contains("trail") || surface.Contains("terrace")?roadStep:grassStep;effects.PlayOneShot(clip,wet?.25f:.2f); }
         public void Silence() { foreach(var source in sirens) source.Stop(); }
         public void SetVolume(float volume) { AudioListener.volume=volume; PlayerPrefs.SetFloat("MasterVolume",volume); }

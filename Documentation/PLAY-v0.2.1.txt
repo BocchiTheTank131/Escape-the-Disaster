@@ -1,0 +1,27 @@
+FLOOD SURVIVAL: 5 DAYS — PROTOTYPE 0.2.1
+Wooded valley / roof-level flood / improved television
+
+Run FloodSurvival.exe. Extract the whole ZIP and keep the runtime folders/DLLs together.
+
+START STORY: look around from the couch while the original cartoon plays.
+News interrupts after 12 seconds and starts the full 150-second warning.
+Press E to stand immediately. Gather optional supplies, then follow the amber earth trail east.
+The shelter building is gone. The trail leads to open wooded high ground, about 15 m high.
+After the breach, the flood front travels downstream and rises for 75 seconds to 10.6 m.
+Even the tallest house roof is reached. Stay on dry ground above 11.6 m to survive.
+Other sufficiently high dry hills also count; no shelter proximity is required.
+
+WASD move / mouse look / Shift sprint / Space jump or hold to swim up.
+E stand or take targeted supply / I inspect / Tab bag / Escape pause or close bag.
+F flashlight / R batteries / H first aid / V emergency radio.
+Use food, water and first aid from the bag. Base capacity 6; backpack expands it to 12.
+Inventory browsing does not pause the timer. Pause freezes gameplay and audio.
+Replay skip unlocks after seeing the introduction.
+
+The TV now has an animated original cartoon and a fictional live news presenter,
+dam diagram, headlines and scrolling evacuation ticker. No outside TV footage is used.
+
+Free Kenney and Poly Haven content; see ASSET_CREDITS.md and Licenses/.
+Terrain, pine meshes and television graphics are authored for this project.
+This is the first evacuation prototype, not the complete five-day simulation.
+See Documentation/LANDSCAPE_REVISION.md for testing scope and remaining manual checks.

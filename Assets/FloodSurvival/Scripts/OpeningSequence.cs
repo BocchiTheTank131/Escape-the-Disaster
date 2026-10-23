@@ -10,6 +10,8 @@ namespace FloodSurvival
         public ParticleSystem startledBirds,damDust,leaks;
         public GameObject damCracks;
         public Light warningLamp;
+        public Light daylight;
+        public AudioClip[] newsVoices;
         public bool Seated {get; private set;}=true;
         public bool OutsideTriggered {get; private set;}
         public float Elapsed {get; private set;}
@@ -17,6 +19,10 @@ namespace FloodSurvival
         public string Subtitle {get; private set;}="";
         public static bool CanSkip => PlayerPrefs.GetInt("OpeningSeenV02",0)>0;
         bool begun;
+        int voicedSection=-1;
+        public int NewsSection => voicedSection;
+        float initialSun;
+        Color initialFog;
         static readonly string[] News={
             "Breaking news! Emergency officials have confirmed severe structural damage to the nearby dam.",
             "Large cracks have appeared across the dam's main structure, and engineers warn that a catastrophic collapse may occur at any moment.",
@@ -26,6 +32,7 @@ namespace FloodSurvival
         public void Begin()
         {
             if(begun)return; begun=true; Seated=true; Elapsed=0;
+            initialSun=daylight?daylight.intensity:2.2f;initialFog=RenderSettings.fogColor;
             GameManager.Instance.player.Sit(seat.position,seat.eulerAngles.y);
             television.SetNews(false);
             GameManager.Instance.audioSystem.Television(true);
@@ -45,7 +52,22 @@ namespace FloodSurvival
             if(game.EmergencyStarted)
             {
                 NewsElapsed+=dt;
-                int section=NewsElapsed<6?0:NewsElapsed<16?1:NewsElapsed<24?2:NewsElapsed<30?3:-1;
+                float tension=Mathf.Clamp01(NewsElapsed/40);
+                if(daylight)daylight.intensity=Mathf.Lerp(initialSun,initialSun*.78f,tension);
+                RenderSettings.fogColor=Color.Lerp(initialFog,new Color(.36f,.46f,.49f),tension);RenderSettings.fogDensity=Mathf.Lerp(.0026f,.004f,tension);
+                int section=-1;float cursor=1.2f;
+                for(int i=0;i<News.Length;i++)
+                {
+                    float duration=newsVoices!=null && i<newsVoices.Length && newsVoices[i]?newsVoices[i].length:.0f;
+                    if(duration<=0)duration=i==1?10:7;
+                    if(NewsElapsed<cursor+duration+.35f)
+                    {
+                        section=i;
+                        if(NewsElapsed>=cursor && voicedSection!=i){voicedSection=i;if(newsVoices!=null && i<newsVoices.Length)game.audioSystem.PlayNews(newsVoices[i]);}
+                        break;
+                    }
+                    cursor+=duration+.35f;
+                }
                 Subtitle=section>=0?News[section]:"";
                 if(warningLamp)warningLamp.intensity=(Mathf.Sin(Time.time*7)>0?5:.3f);
                 if(!Seated && !HouseBounds.Contains(game.player.transform.position) && !OutsideTriggered) TriggerOutside();
@@ -63,11 +85,11 @@ namespace FloodSurvival
             if(!CanSkip || !begun)return;
             Elapsed=peacefulDuration; var game=GameManager.Instance;
             if(!game.EmergencyStarted){game.StartWarning();television.SetNews(true);game.audioSystem.BreakingNews();}
-            NewsElapsed=30; Subtitle=""; StandUp();
+            NewsElapsed=1000; voicedSection=4; Subtitle="";game.audioSystem.Television(false); StandUp();
         }
         public void TriggerOutside()
         {
-            if(OutsideTriggered || !GameManager.Instance.EmergencyStarted)return;
+            if(OutsideTriggered || GameManager.Instance.State!=GameState.Preparation || !GameManager.Instance.EmergencyStarted)return;
             OutsideTriggered=true;
             if(damCracks)damCracks.SetActive(true);
             if(startledBirds)startledBirds.Play(); if(damDust)damDust.Play(); if(leaks)leaks.Play();

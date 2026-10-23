@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FloodSurvival.ItemDefinition
   kind: 3
   displayName: Flashlight
-  description: Press F to equip or toggle.
-  color: {r: 0.9, g: 0.8, b: 0.35, a: 1}
+  description: F toggles the beam. Charge drains only while lit. R loads batteries.
+  color: {r: 0.94, g: 0.8, b: 0.3, a: 1}
+  icon: {fileID: 21300000, guid: 0c91ec3478fc26e418c3dbef62cb49fc, type: 3}
+  slotCost: 1

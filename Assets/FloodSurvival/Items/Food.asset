@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Food
   m_EditorClassIdentifier: Assembly-CSharp::FloodSurvival.ItemDefinition
   kind: 0
-  displayName: Food rations
-  description: An essential emergency supply.
-  color: {r: 0.95, g: 0.58, b: 0.16, a: 1}
+  displayName: Canned food
+  description: 'Easy energy: restores 12 health. No hunger meter in this prototype.'
+  color: {r: 0.9, g: 0.5, b: 0.13, a: 1}
+  icon: {fileID: 21300000, guid: df3500c01da685d46914a32dd13fec72, type: 3}
+  slotCost: 1

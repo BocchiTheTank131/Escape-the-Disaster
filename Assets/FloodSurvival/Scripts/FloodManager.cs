@@ -12,7 +12,7 @@ namespace FloodSurvival
         public ParticleSystem collapseDust;
         public float originZ=108, frontSpeed=4.2f,currentStrength=1.7f;
         public float FrontZ {get; private set;}=108;
-        public float FinalLevel=9;
+        public float FinalLevel=10.6f;
         public float RiseDuration=75;
         public bool IsFlooding {get; private set;}
         public float Level {get; private set;}=-2;
