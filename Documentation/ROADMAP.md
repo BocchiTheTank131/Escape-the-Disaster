@@ -1,0 +1,8 @@
+# Prototype v0.2 proposal
+
+1. **Validate the evacuation experience with players.** Measure whether people find the house, supplies and trail without assistance. Adjust the 150-second route, marker placement and warnings using playtest observations. Keep a reliable restart and both outcome paths covered by automated checks.
+2. **Improve environmental storytelling and feedback.** Add a licensed/free spoken emergency broadcast, distinct resident voices, footsteps, water contact sounds, weather layers, room props, clearer shelf labeling and a more convincing breach effect. Replace procedural residents with a verified free animated character pack.
+3. **Profile a Windows build on representative hardware.** Capture CPU/GPU timings, draw calls, memory and GC. Combine static geometry where useful, add tree LOD/culling, reduce unnecessary real-time lights, and provide low/medium/high quality settings and a frame limiter.
+4. **Improve flood presentation within the same reliable height model.** Add shoreline foam, depth-based color, water audio zones, mild current cues and carefully bounded floating debris. Keep one authoritative water level and avoid computational fluid dynamics.
+5. **Refine accessibility and controls.** Remappable input, controller support, FOV control, optional head bob/camera shake, scalable HUD, high-contrast waypoint options and separate audio channels. Add more aspect-ratio and resolution tests.
+6. **Expand survival only after this loop stays stable.** Introduce a small first-night shelter scenario with explicit use of food/water/medicine and a lightweight save checkpoint. Design the five-day progression before implementing it. Boats, vehicles, combat, multiplayer and complex crafting remain separate future scope.

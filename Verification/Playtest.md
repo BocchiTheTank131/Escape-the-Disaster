@@ -1,0 +1,59 @@
+# Prototype v0.1 — automated Editor playtest
+
+Uses real Input System events; teleports only arrange pickup/hazard scenarios.
+The first countdown and flood run at normal time.
+
+- PASS — Main menu loads with wired systems
+- PASS — Player loop advances while Editor is unfocused
+- PASS — Begin button starts a 150-second emergency
+- PASS — Spatial emergency sirens play
+- PASS — Emergency broadcast appears
+- PASS — WASD moves CharacterController
+- PASS — Mouse delta rotates first-person view
+- PASS — Space produces a grounded jump
+- PASS — Shift sprint increases movement speed
+- PASS — Tab opens inventory UI
+- PASS — Tab closes inventory UI
+- PASS — Escape pauses countdown and gameplay
+- PASS — Escape safely resumes gameplay
+- PASS — Mouse sensitivity is adjustable
+- PASS — Raycast identifies Food within reach
+- PASS — E collects Food exactly once
+- PASS — Duplicate collection rejected for Food
+- PASS — Raycast identifies Water within reach
+- PASS — E collects Water exactly once
+- PASS — Duplicate collection rejected for Water
+- PASS — Raycast identifies Medicine within reach
+- PASS — E collects Medicine exactly once
+- PASS — Duplicate collection rejected for Medicine
+- PASS — Raycast identifies Flashlight within reach
+- PASS — E collects Flashlight exactly once
+- PASS — Duplicate collection rejected for Flashlight
+- PASS — All four supply types appear in inventory
+- PASS — Returning to the house completes home objective
+- PASS — F equips and activates collected flashlight
+- PASS — F toggles flashlight off
+- PASS — CharacterController collides with market back wall
+- PASS — Player can sprint continuously from street to shelter terrace
+- PASS — Evacuee has complete shelter path: Evacuee 1
+- PASS — Evacuee has complete shelter path: Evacuee 2
+- PASS — Evacuee has complete shelter path: Evacuee 3
+- PASS — Evacuee has complete shelter path: Evacuee 4
+- PASS — Evacuee has complete shelter path: Evacuee 5
+- PASS — Evacuee has complete shelter path: Evacuee 6
+- PASS — Evacuee has complete shelter path: Evacuee 7
+- PASS — Evacuee has complete shelter path: Evacuee 8
+- RUNNING — waiting for the natural 150-second countdown at timeScale 1
+- PASS — Countdown expires naturally and triggers flood
+- PASS — Dam breach removes central section and activates water
+- PASS — Objective changes to high ground
+- PASS — Water level rises progressively at normal time
+- RUNNING — waiting for surge stabilization and victory
+- PASS — High ground survives the full 75-second rising surge
+- PASS — Restart restores menu, timer, health, empty bag, water and references
+- PASS — Restart restores all eight pickups
+- PASS — Submersion depletes air and applies drowning damage
+- PASS — Medicine restores health and consumes one item
+- PASS — Remaining submerged produces game-over screen
+- PASS — Restart also recovers from drowning defeat
+- COMPLETE — all automated gameplay checks passed. Native audio is synthesized; subjective listening and hardware performance remain manual checks.

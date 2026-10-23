@@ -1,0 +1,1 @@
+PASS: all eight agents enable after surfaces register, bind to NavMesh, and have complete shelter paths.
